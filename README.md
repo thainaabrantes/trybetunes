@@ -60,7 +60,7 @@ Neste projeto, verificamos se você é capaz de:
   
   * Este projeto é individual;
   * Serão `3` dias de projeto;
-  * Data para entrega final do projeto: `14/11/2022 14:00`.
+  * Data para entrega final do projeto: `16/11/2022 14:00`.
 
 </details>
 
