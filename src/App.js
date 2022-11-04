@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
+import Content from './components/Content';
 
-class App extends React.Component {
+class App extends Component {
   render() {
-    return (<p>TrybeTunes</p>);
+    return (
+      <div>
+        <Content />
+      </div>
+    );
   }
 }
 
