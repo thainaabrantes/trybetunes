@@ -1,21 +1,55 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { addSong } from '../services/favoriteSongsAPI';
+import Loading from './Loading';
 
 class MusicCard extends Component {
+  state = {
+    isInputChecked: false,
+    isLoading: false,
+  };
+
+  addFavoriteSong = async (music) => {
+    this.setState({ isInputChecked: true, isLoading: true });
+    const favoriteSong = await addSong(music);
+    if (favoriteSong === 'OK') {
+      this.setState({ isLoading: false });
+    }
+  };
+
   render() {
-    const { previewUrl, trackName } = this.props;
+    const { previewUrl, trackName, trackId, music } = this.props;
+    const { isInputChecked, isLoading } = this.state;
+
     return (
-      <section>
-        <p>{ trackName }</p>
-        <audio data-testid="audio-component" src={ previewUrl } controls>
-          <track kind="captions" />
-          O seu navegador não suporta o elemento
-          {' '}
-          {' '}
-          <code>audio</code>
-          .
-        </audio>
-      </section>
+      <div>
+        {
+          isLoading ? <Loading />
+            : (
+              <section>
+                <p>{ trackName }</p>
+                <audio data-testid="audio-component" src={ previewUrl } controls>
+                  <track kind="captions" />
+                  O seu navegador não suporta o elemento
+                  {' '}
+                  {' '}
+                  <code>audio</code>
+                  .
+                </audio>
+                <label htmlFor={ `checkbox-music-${trackId}` }>
+                  Favorita
+                  <input
+                    type="checkbox"
+                    data-testid={ `checkbox-music-${trackId}` }
+                    id={ `checkbox-music-${trackId}` }
+                    checked={ isInputChecked }
+                    onChange={ () => this.addFavoriteSong(music) }
+                  />
+                </label>
+              </section>
+            )
+        }
+      </div>
     );
   }
 }
@@ -23,6 +57,8 @@ class MusicCard extends Component {
 MusicCard.propTypes = {
   previewUrl: PropTypes.string.isRequired,
   trackName: PropTypes.string.isRequired,
+  trackId: PropTypes.string.isRequired,
+  music: PropTypes.isRequired,
 };
 
 export default MusicCard;
