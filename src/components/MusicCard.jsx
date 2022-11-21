@@ -10,7 +10,7 @@ class MusicCard extends Component {
   };
 
   async componentDidMount() {
-    const { trackName } = this.props;
+    const { music: { trackName } } = this.props;
     const response = await getFavoriteSongs();
     const songsArray = [...response.map((item) => item.trackName)];
 
@@ -19,22 +19,25 @@ class MusicCard extends Component {
     }
   }
 
-  addFavoriteSong = async (music) => {
+  handleFavoriteSong = async (music) => {
+    const { removeFavoriteSong } = this.props;
     const { isInputChecked } = this.state;
-    this.setState({ isInputChecked: true, isLoading: true });
-    const favoriteSong = await addSong(music);
-    if (favoriteSong === 'OK') {
-      this.setState({ isLoading: false });
-    }
-    if (isInputChecked) {
-      this.setState({ isInputChecked: false }, async () => {
+    if (!isInputChecked) {
+      this.setState({ isInputChecked: true, isLoading: true });
+      const favoriteSong = await addSong(music);
+      if (favoriteSong === 'OK') {
+        this.setState({ isLoading: false });
+      }
+    } else {
+      this.setState({ isInputChecked: false, isLoading: true }, async () => {
         await removeSong(music);
+        await removeFavoriteSong();
       });
     }
   };
 
   render() {
-    const { previewUrl, trackName, trackId, music } = this.props;
+    const { music } = this.props;
     const { isInputChecked, isLoading } = this.state;
 
     return (
@@ -43,8 +46,8 @@ class MusicCard extends Component {
           isLoading ? <Loading />
             : (
               <section>
-                <p>{ trackName }</p>
-                <audio data-testid="audio-component" src={ previewUrl } controls>
+                <p>{ music.trackName }</p>
+                <audio data-testid="audio-component" src={ music.previewUrl } controls>
                   <track kind="captions" />
                   O seu navegador não suporta o elemento
                   {' '}
@@ -52,14 +55,14 @@ class MusicCard extends Component {
                   <code>audio</code>
                   .
                 </audio>
-                <label htmlFor={ `checkbox-music-${trackId}` }>
+                <label htmlFor={ `checkbox-music-${music.trackId}` }>
                   Favorita
                   <input
                     type="checkbox"
-                    data-testid={ `checkbox-music-${trackId}` }
-                    id={ `checkbox-music-${trackId}` }
+                    data-testid={ `checkbox-music-${music.trackId}` }
+                    id={ `checkbox-music-${music.trackId}` }
                     checked={ isInputChecked }
-                    onChange={ () => this.addFavoriteSong(music) }
+                    onChange={ () => this.handleFavoriteSong(music) }
                   />
                 </label>
               </section>
@@ -71,10 +74,12 @@ class MusicCard extends Component {
 }
 
 MusicCard.propTypes = {
-  previewUrl: PropTypes.string.isRequired,
-  trackName: PropTypes.string.isRequired,
-  trackId: PropTypes.string.isRequired,
-  music: PropTypes.isRequired,
+  music: PropTypes.shape({
+    previewUrl: PropTypes.string,
+    trackId: PropTypes.number,
+    trackName: PropTypes.string,
+  }).isRequired,
+  removeFavoriteSong: PropTypes.func.isRequired,
 };
 
 export default MusicCard;

@@ -1,12 +1,49 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import Loading from '../components/Loading';
+import MusicCard from '../components/MusicCard';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Favorites extends Component {
+  state = {
+    favoriteSongs: [],
+    isLoading: true,
+  };
+
+  async componentDidMount() {
+    const response = await getFavoriteSongs();
+    this.setState({
+      favoriteSongs: response,
+      isLoading: false,
+    });
+  }
+
+  removeFavoriteSong = async () => {
+    const response = await getFavoriteSongs();
+    this.setState({ favoriteSongs: response });
+  };
+
   render() {
+    const { isLoading, favoriteSongs } = this.state;
     return (
       <div data-testid="page-favorites">
         <Header />
-        Favorites
+        <main>
+          {
+            isLoading ? <Loading />
+              : (
+                <section>
+                  { favoriteSongs.map((favoriteSong) => (
+                    <MusicCard
+                      key={ favoriteSong.trackId }
+                      music={ favoriteSong }
+                      removeFavoriteSong={ this.removeFavoriteSong }
+                    />
+                  ))}
+                </section>
+              )
+          }
+        </main>
       </div>
     );
   }
