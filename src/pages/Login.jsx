@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import Loading from '../components/Loading';
 import { createUser } from '../services/userAPI';
+import './Login.css';
 
 class Login extends Component {
   state = {
@@ -57,22 +58,27 @@ class Login extends Component {
         {isLoading
           ? <Loading />
           : (
-            <form onSubmit={ this.handleSubmit }>
-              <input
-                data-testid="login-name-input"
-                type="text"
-                name="loginName"
-                value={ loginName }
-                onChange={ ({ target }) => this.onInputChange(target) }
-              />
-              <button
-                data-testid="login-submit-button"
-                type="submit"
-                disabled={ isLoginButtonDisabled }
-              >
-                Entrar
-              </button>
-            </form>
+            <div className="login-container">
+              <form className="login-card" onSubmit={ this.handleSubmit }>
+                <input
+                  className="login-name-input"
+                  data-testid="login-name-input"
+                  type="text"
+                  name="loginName"
+                  value={ loginName }
+                  onChange={ ({ target }) => this.onInputChange(target) }
+                  placeholder="qual é o seu nome?"
+                />
+                <button
+                  className="login-submit-button"
+                  data-testid="login-submit-button"
+                  type="submit"
+                  disabled={ isLoginButtonDisabled }
+                >
+                  ENTRAR
+                </button>
+              </form>
+            </div>
           )}
         { logged && <Redirect to="/search" /> }
       </div>
