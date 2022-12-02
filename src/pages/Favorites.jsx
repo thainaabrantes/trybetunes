@@ -18,9 +18,17 @@ class Favorites extends Component {
     });
   }
 
-  removeFavoriteSong = async () => {
+  async componentDidUpdate() {
     const response = await getFavoriteSongs();
     this.setState({ favoriteSongs: response });
+  }
+
+  removeFavoriteSong = (songId) => {
+    const { favoriteSongs } = this.state;
+    const updateFavSongs = favoriteSongs.filter((song) => (
+      song.trackId !== songId
+    ));
+    this.setState({ favoriteSongs: updateFavSongs });
   };
 
   render() {

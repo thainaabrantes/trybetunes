@@ -20,7 +20,6 @@ class MusicCard extends Component {
   }
 
   handleFavoriteSong = async (music) => {
-    const { removeFavoriteSong } = this.props;
     const { isInputChecked } = this.state;
     if (!isInputChecked) {
       this.setState({ isInputChecked: true, isLoading: true });
@@ -31,7 +30,10 @@ class MusicCard extends Component {
     } else {
       this.setState({ isInputChecked: false, isLoading: true }, async () => {
         await removeSong(music);
-        await removeFavoriteSong();
+        await getFavoriteSongs();
+        this.setState({
+          isLoading: false,
+        });
       });
     }
   };
@@ -79,7 +81,6 @@ MusicCard.propTypes = {
     trackId: PropTypes.number,
     trackName: PropTypes.string,
   }).isRequired,
-  removeFavoriteSong: PropTypes.func.isRequired,
 };
 
 export default MusicCard;

@@ -1,0 +1,28 @@
+.header-component {
+  background: linear-gradient(123.66deg, rgb(0, 59, 229) 12.08%, rgb(0, 213, 226) 86.52%);
+}
+
+.user-name-div {
+  align-items: center;
+  background: rgb(239, 243, 249);
+  border-radius: 20px;
+  display: flex;
+  height: 30px;
+  width: 130px;
+}
+
+.container-links {
+  display: flex;
+}
+
+.link-div {
+  background: white;
+  border: 1px solid rgb(0, 213, 226);
+  font-size: 30px;
+  text-align: center;
+  width: 33.33%;
+}
+
+.link {
+  text-decoration: none;
+}
