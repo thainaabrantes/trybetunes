@@ -32,9 +32,33 @@ class Header extends Component {
                   <p data-testid="header-user-name">{ userName }</p>
                 </div>
                 <nav className="container-links">
-                  <div className="link-div"><Link className="link" to="/search" data-testid="link-to-search">Pesquisa</Link></div>
-                  <div className="link-div"><Link className="link" to="/favorites" data-testid="link-to-favorites">Favoritas</Link></div>
-                  <div className="link-div"><Link className="link" to="/profile" data-testid="link-to-profile">Perfil</Link></div>
+                  <div className="link-div">
+                    <Link
+                      className="link"
+                      to="/search"
+                      data-testid="link-to-search"
+                    >
+                      Pesquisa
+                    </Link>
+                  </div>
+                  <div className="link-div">
+                    <Link
+                      className="link"
+                      to="/favorites"
+                      data-testid="link-to-favorites"
+                    >
+                      Favoritas
+                    </Link>
+                  </div>
+                  <div className="link-div">
+                    <Link
+                      className="link"
+                      to="/profile"
+                      data-testid="link-to-profile"
+                    >
+                      Perfil
+                    </Link>
+                  </div>
                 </nav>
               </header>
             )
