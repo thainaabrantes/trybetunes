@@ -6,21 +6,23 @@ import './Header.css';
 
 class Header extends Component {
   state = {
-    userName: '',
+    name: '',
+    image: '',
     loadingName: true,
   };
 
   async componentDidMount() {
     const response = await getUser();
-    const { name } = response;
+    const { name, image } = response;
     this.setState({
-      userName: name,
+      name,
+      image,
       loadingName: false,
     });
   }
 
   render() {
-    const { userName, loadingName } = this.state;
+    const { name, image, loadingName } = this.state;
     return (
       <div>
         {
@@ -29,7 +31,8 @@ class Header extends Component {
             : (
               <header className="header-component" data-testid="header-component">
                 <div className="user-name-div">
-                  <p data-testid="header-user-name">{ userName }</p>
+                  <img src={ image } alt="Foto perfil" />
+                  <p data-testid="header-user-name">{ name }</p>
                 </div>
                 <nav className="container-links">
                   <div className="link-div">
