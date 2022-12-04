@@ -3,10 +3,13 @@ import { Redirect } from 'react-router';
 import Loading from '../components/Loading';
 import { createUser } from '../services/userAPI';
 import './Login.css';
+import image from '../assets/perfil.png';
 
 class Login extends Component {
   state = {
     loginName: '',
+    loginEmail: '',
+    loginDescription: '',
     isLoginButtonDisabled: true,
     isLoading: false,
     logged: false,
@@ -32,11 +35,16 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { loginName } = this.state;
+    const { loginName, loginEmail, loginDescription } = this.state;
     this.setState(
       { isLoading: true },
       async () => {
-        await createUser({ name: loginName });
+        await createUser({
+          name: loginName,
+          email: loginEmail,
+          description: loginDescription,
+          image,
+        });
         this.setState({
           isLoading: false,
           logged: true,
@@ -48,6 +56,8 @@ class Login extends Component {
   render() {
     const {
       loginName,
+      loginEmail,
+      loginDescription,
       isLoginButtonDisabled,
       isLoading,
       logged,
@@ -68,6 +78,24 @@ class Login extends Component {
                   value={ loginName }
                   onChange={ ({ target }) => this.onInputChange(target) }
                   placeholder="qual é o seu nome?"
+                />
+                <input
+                  className="login-email-input"
+                  data-testid="login-email-input"
+                  type="email"
+                  name="loginEmail"
+                  value={ loginEmail }
+                  onChange={ ({ target }) => this.onInputChange(target) }
+                  placeholder="digite seu email"
+                />
+                <input
+                  className="login-description-input"
+                  data-testid="login-description-input"
+                  type="text"
+                  name="loginDescription"
+                  value={ loginDescription }
+                  onChange={ ({ target }) => this.onInputChange(target) }
+                  placeholder="descrição"
                 />
                 <button
                   className="login-submit-button"
